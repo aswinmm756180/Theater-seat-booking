@@ -1,0 +1,280 @@
+{% extends 'user/user_home.html' %}
+{% load static %}
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #080808;
+        padding: 20px;
+        margin-bottom: 50px;
+    }
+
+    .card {
+        background-color: #3b3b3b;
+        box-shadow: 0px 100px 100px 0px rgb(248, 247, 247);
+        transition: 0.3s;
+        width: 40%;
+        margin-top: -50px;
+        /* Adjusted width */
+        
+        margin: auto;
+    }
+
+    .card:hover {
+        box-shadow: 0 50px 50px 0 red;
+    }
+
+    .container {
+        padding: 2px 16px;
+    }
+
+    h3 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .card-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .card-header,
+    .card-body {
+        padding: 10px;
+    }
+
+    .card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        margin-bottom: 50px;
+    }
+
+    .delete-btn {
+        background-color: #ff0404;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    /* .update-btn {
+        background-color: #058d0c;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    } */
+
+    .delete-btn:hover {
+        background-color: #fd1010;
+        color: black;
+    }
+    
+    .update-btn:hover {
+        background-color: #3cfa02;
+        color: rgb(14, 13, 13);
+    }
+
+    /* .update-btn:hover {
+        background-color: #51973c;
+        color: black;
+
+    } */
+
+    .delete-btn {
+        height: 3em;
+        width: 8em;
+        border: none;
+        border-radius: 10em;
+        background: #a31326;
+        font-size: 17px;
+        color: #ffffff;
+        font-family: inherit;
+        font-weight: 500;
+    }
+
+    .delete-btn:hover {
+        animation: shake3856 0.3s linear infinite both;
+    }
+
+    @keyframes shake3856 {
+        0% {
+            -webkit-transform: translate(0);
+            transform: translate(0);
+        }
+
+        20% {
+            -webkit-transform: translate(-2px, 2px);
+            transform: translate(-2px, 2px);
+        }
+
+        40% {
+            -webkit-transform: translate(-2px, -2px);
+            transform: translate(-2px, -2px);
+        }
+
+        60% {
+            -webkit-transform: translate(2px, 2px);
+            transform: translate(2px, 2px);
+        }
+
+        80% {
+            -webkit-transform: translate(2px, -2px);
+            transform: translate(2px, -2px);
+        }
+
+        100% {
+            -webkit-transform: translate(0);
+            transform: translate(0);
+        }
+    }
+
+    .update-btn {
+        height: 3em;
+        width: 8em;
+        border: none;
+        border-radius: 10em;
+        background: #447714;
+        font-size: 17px;
+        color: #fdfbfb;
+        font-family: inherit;
+        font-weight: 500;
+    }
+
+    .update-btn:hover {
+        animation: shake3856 0.3s linear infinite both;
+    }
+
+    @keyframes shake3856 {
+        0% {
+            -webkit-transform: translate(0);
+            transform: translate(0);
+        }
+
+        20% {
+            -webkit-transform: translate(-2px, 2px);
+            transform: translate(-2px, 2px);
+        }
+
+        40% {
+            -webkit-transform: translate(-2px, -2px);
+            transform: translate(-2px, -2px);
+        }
+
+        60% {
+            -webkit-transform: translate(2px, 2px);
+            transform: translate(2px, 2px);
+        }
+
+        80% {
+            -webkit-transform: translate(2px, -2px);
+            transform: translate(2px, -2px);
+        }
+
+        100% {
+            -webkit-transform: translate(0);
+            transform: translate(0);
+        }
+    }
+</style>
+
+<body>
+    <h3>My Bookings</h3>
+    {% if bookings %}
+    {% for booking in bookings %}
+    <div class="card">
+        <div class="card-content">
+            <div class="card-header">
+                <h4>Booking ID: {{ booking.id }}</h4>
+            </div>
+            <div class="container">
+                <p><strong>Movie:</strong> {{ booking.movie.name }}</p>
+                <p><strong>Theater:</strong> {{ booking.theater.theater_name }}</p>
+                <p><strong>Time Slot:</strong> {{ booking.time_slot }}</p>
+                <p><strong>Total Amount:</strong> {{ booking.total_amount }}</p>
+                <p><strong>Booked Date & Time:</strong> {{ booking.booking_time }}</p>
+                <p><strong>Seats Booked:</strong> {{ booking.booked_seat_numbers }}</p>
+                <p><strong>Payment:</strong> Pending</p>
+                <p><strong>Updation Request:</strong> Pending</p>
+            </div>
+            <div class="card-footer">
+                <form method="post" action="{% url 'delete_booking' booking.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="booking_id" value="{{ booking.id }}">
+                    <button type="submit" class="delete-btn">Cancel</button>
+                </form>
+                <!-- <form method="post" action="{% url 'view_booking_details' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="booking_id" value="{{ booking.id }}">
+                    <button type="submit" class="update-btn">Update</button>
+                </form> -->
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p class="no-bookings">No bookings found.</p>
+    {% endif %}
+</body>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% if bookings %}
+    {% for booking in bookings %}
+    <div class="card">
+        <div class="card-content">
+            <div class="card-header">
+                <h4>Booking ID: {{ booking.id }}</h4>
+            </div>
+            <div class="container">
+                <p><strong>Movie:</strong> {{ booking.movie.name }}</p>
+                <p><strong>Theater:</strong> {{ booking.theater.theater_name }}</p>
+                <p><strong>Time Slot:</strong> {{ booking.time_slot }}</p>
+                <p><strong>Total Amount:</strong> {{ booking.total_amount }}</p>
+                <p><strong>Booked Date & Time:</strong> {{ booking.booking_time }}</p>
+                <p><strong>Seats Booked:</strong> {{ booking.booked_seat_numbers }}</p>
+                <p><strong>Payment:</strong> Pending</p>
+                <p><strong>Updation Request:</strong> Pending</p>
+            </div>
+            <div class="card-footer">
+                <form method="post" action="{% url 'delete_booking' booking.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="booking_id" value="{{ booking.id }}">
+                    <button type="submit" class="delete-btn">Cancel</button>
+                </form>
+                <form method="post" action="{% url 'view_booking_details' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="booking_id" value="{{ booking.id }}">
+                    <button type="submit" class="update-btn">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p class="no-bookings">No bookings found.</p>
+    {% endif %}

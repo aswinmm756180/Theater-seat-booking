@@ -1,0 +1,233 @@
+{% extends 'manager/manager_home.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Chat</title>
+    <style>
+        /* Your existing CSS styles */
+
+        /* Additions for two-column layout */
+        .column-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .column {
+            flex: 0 0 48%;
+            /* Adjust width as needed */
+        }
+    </style>
+</head>
+<style>
+    body {
+        background-color: #080808;
+        /* Dark background */
+        color: #ccc;
+        /* Light text */
+        font-family: 'Arial', sans-serif;
+        /* Industrial font */
+    }
+
+    .page-content {
+        margin-top: 50px;
+        /* Adjust top margin */
+    }
+
+    .box {
+        background-color: #5e5c5c;
+        /* Dark box background */
+        border-color: #666;
+        /* Border color */
+    }
+
+    .box-header {
+        background-color: #0a0a0a;
+        /* Dark header background */
+        color: #fff;
+        /* Light text */
+    }
+
+    .box-body {
+        padding: 20px;
+    }
+
+    .direct-chat-messages {
+        margin-top: 20px;
+    }
+
+    .direct-chat-msg {
+        margin-bottom: 20px;
+    }
+
+    .direct-chat-name {
+        color: #ffcc00;
+        /* Yellow text for user/manager names */
+        font-weight: bold;
+    }
+
+    .direct-chat-text {
+        background-color: #070707;
+        /* Dark message background */
+        color: #ccc;
+        /* Light text */
+        padding: 10px;
+    }
+
+    .direct-chat-timestamp {
+        color: #999;
+        /* Light timestamp color */
+    }
+
+    .btn-warning {
+        background-color: #ffcc00;
+        /* Yellow button background */
+        border-color: #ffcc00;
+        /* Yellow button border */
+        color: #333;
+        /* Dark button text */
+    }
+
+    .btn-warning:hover {
+        background-color: #ffd633;
+        /* Darker yellow on hover */
+        border-color: #ffd633;
+        /* Darker yellow border on hover */
+    }
+
+    .input-group {
+        margin-bottom: 20px;
+    }
+
+    .input-group .form-control {
+        background-color: #444;
+        /* Dark input background */
+        color: #ccc;
+        /* Light text */
+        border-color: #666;
+        /* Input border color */
+    }
+
+    .input-group-btn .btn {
+        background-color: #333;
+        /* Dark button background */
+        border-color: #666;
+        /* Button border color */
+        color: #ccc;
+        /* Light button text */
+    }
+
+    .input-group-btn .btn:hover {
+        background-color: #222;
+        /* Darker button background on hover */
+        border-color: #555;
+        /* Darker button border on hover */
+    }
+</style>
+</head>
+
+<body>
+    <br><br><br><br><br><br><br><br><br><br><br>
+    <div class="page-content page-container" id="page-content">
+        <div class="padding">
+            <div class="row container d-flex justify-content-center">
+                <div class="col-md-4">
+                    <div class="box box-warning direct-chat direct-chat-warning">
+                        <div class="box-header with-border">
+                            <h3 class="box-title text-danger">User Request Messages For Reservation and Updations</h3>
+                            <!-- Add any additional header content you need -->
+                        </div>
+
+                        <div class="box-body">
+                            <div class="direct-chat-messages column-container">
+                                <div class="column">
+                                    {% for message in messages %}
+                                    {% if message.user.is_user %}
+                                    <div class="direct-chat-msg">
+                                        <div class="direct-chat-info clearfix">
+                                            <span class="direct-chat-name pull-left"><span
+                                                    style="font-weight: bolder;">User :
+                                                </span>{{message.user.username}}</span>
+                                            <span class="direct-chat-timestamp pull-right">{{message.created_at}}</span>
+                                        </div>
+                                        <img class="direct-chat-img"
+                                            src="https://img.icons8.com/color/36/000000/administrator-male.png"
+                                            alt="message user image">
+                                        <div class="direct-chat-text">
+                                            {{message.chat}}
+                                        </div>
+                                        {% if request.user == message.user %}
+                                        <form action="{% url 'delete_chat' message.id %}" method="post"
+                                            style="margin-top: 5px;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                        </form>
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="column">
+                                    {% for message in messages %}
+                                    {% if message.user.is_manager %}
+                                    <div class="direct-chat-msg right">
+                                        <div class="direct-chat-info clearfix">
+                                            <span class="direct-chat-name pull-right"><Span
+                                                    style="font-weight: bolder;">Manager :
+                                                </Span>{{message.user.username}}</span>
+                                            <span class="direct-chat-timestamp pull-left">{{message.created_at}}</span>
+                                        </div>
+                                        <img class="direct-chat-img"
+                                            src="https://img.icons8.com/color/36/000000/administrator-male.png"
+                                            alt="message user image">
+                                        <div class="direct-chat-text">
+                                            {{message.chat}}
+                                        </div>
+                                        {% if request.user == message.user %}
+                                        <!-- Ensure message.id is passed to delete_chat view -->
+                                        <form action="{% url 'delete_chat' message.id %}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit">Delete Chat</button>
+                                        </form>
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <div class="box-footer">
+                                        <form action="{% url 'delete_all_messages' %}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger">Delete All</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="box-footer">
+                        <form action="{% url 'manager_chat' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <input type="text" name="managerchat" placeholder="Type Message ..."
+                                    class="form-control">
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-warning btn-flat">Send</button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+{% endblock %}

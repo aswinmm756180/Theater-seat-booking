@@ -1,0 +1,67 @@
+{% extends 'manager/manager_home.html' %}
+{% load static %}
+{% block content %}
+<br><br><br><br><br><br><br>
+<h1 style="color: #333; font-size: 24px; margin-bottom: 20px;"></h1>
+<div class="container mt-5" style="margin-left: 160px;">
+    <div class="row">
+        <!-- Main Content for Food Items -->
+        <div class="col-md-8 order-md-2">
+            <div class="col-lg-4 offset-lg-4 text-center" style="text-align: center;">
+                <div class="section-heading" style="margin-top: 40px;">
+                    <h1>MOVIES</h1>
+                </div>
+            </div>
+            <div class="row">
+                {% for film in films %}
+                <div class="col-md-4">
+                    <div class="card mb-3 border border-dark  rounded-4 border-0 shadow-lg ">
+                        {% if film.image %}
+                        <img src="{{ film.image.url }}" class="card-img-top border border-dark p-1 rounded-4 border-0 shadow-lg
+                            " alt="Film Image" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                        <p>No image available</p>
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ film.name }}</h5>
+                            <p class="card-text">{{ film.Description }}</p>
+                            <a href="{% url 'delete_movie' film.id %}" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <ul style="list-style-type: none; padding-left: 0;">
+        {% for movie in film %}
+        <li
+            style="margin-bottom: 10px; background-color: #f9f9f9; border: 1px solid #ccc; border-radius: 5px; padding: 10px;">
+            movie :{{ movie.name }}<br>
+            Description :{{ movie.Description }}<br>
+            <!-- Delete button -->
+            <a href="{% url 'delete_movie' movie.id %}" style="margin-left: 10px;">Delete</a>
+        </li>
+        {% endfor %}
+    </ul>

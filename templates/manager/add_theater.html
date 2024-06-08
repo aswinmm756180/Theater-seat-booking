@@ -1,0 +1,46 @@
+{% extends 'manager/manager_home.html' %}
+{% load static %}
+{% block content %}
+<br><br><br><br><br>
+<h1 style="color: #333; font-size: 24px;">Add Theater</h1>
+<form method="post" enctype="multipart/form-data" style="max-width: 600px; margin: 0 auto;">
+    {% csrf_token %}
+    <label for="name" style="display: block; margin-bottom: 10px;">Theater Name:</label>
+    <input type="text" id="name" name="name" required
+        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; margin-bottom: 20px;">
+    <label for="movie" style="display: block; margin-bottom: 10px;">Movie:</label>
+    <select id="movie" name="movie" required
+        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; margin-bottom: 20px;">
+        {% for movie in films %}
+        <option value="{{ movie.id }}">{{ movie.name }}</option>
+        {% endfor %}
+    </select>
+    <label for="location" style="display: block; margin-bottom: 10px;">Location:</label>
+    <textarea id="location" name="location" rows="1" cols="50" required
+        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; margin-bottom: 20px;"></textarea>
+
+    <label for="image" style="display: block; margin-bottom: 10px;">Image:</label>
+    <input type="file" id="image" name="image" accept="image/*" required style="margin-bottom: 20px;">
+
+    <label for="time_slot_1" style="display: block; margin-bottom: 10px;">Time Slot 1:</label>
+<input type="time" id="time_slot_1" name="time_slot_1" required
+    style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; margin-bottom: 20px;">
+
+<label for="time_slot_2" style="display: block; margin-bottom: 10px;">Time Slot 2:</label>
+<input type="time" id="time_slot_2" name="time_slot_2" required
+    style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; margin-bottom: 20px;">
+
+<label for="time_slot_3" style="display: block; margin-bottom: 10px;">Time Slot 3:</label>
+<input type="time" id="time_slot_3" name="time_slot_3" required
+    style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; margin-bottom: 20px;">
+
+<label for="time_slot_4" style="display: block; margin-bottom: 10px;">Time Slot 4:</label>
+<input type="time" id="time_slot_4" name="time_slot_4" required
+    style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; margin-bottom: 20px;">
+<br>
+
+    <button type="submit"
+        style="background-color: #c7460a; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">Add
+        Theater</button>
+</form>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'admin/admin_panel.html' %}
+{% load static %}
+{% block content %}
+<br><br>  
+    <h1 style="text-align: center;color: #007bff; font-size: 28px;">Add Movie</h1>
+    <form method="post" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="movie_name" style="display: block; margin-bottom: 10px;">Movie Name:</label>
+        <input type="text" id="movie_name" name="movie_name" required style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px; color: black;">
+        <br>
+        <label for="movie_Description" style="display: block; margin-bottom: 10px;">Movie Description:</label>
+        <input type="text" id="movie_Description" name="movie_Description" required style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px; color: black;">
+        <br>
+        <label for="movie_image" style="display: block; margin-bottom: 10px;">Movie Image:</label>
+        <input type="file" id="movie_image" name="movie_image" required style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px;">
+        <br>
+        <button type="submit" style="margin-top: 10px; padding: 8px 15px; background-color: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer;">Add  Movie</button>
+    </form>
+{% endblock %}

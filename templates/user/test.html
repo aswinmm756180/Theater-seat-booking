@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theater Seat Booking</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .seats {
+      display: grid;
+      margin: auto;
+      grid-template-columns: repeat(6, 50px);
+      gap: 5px;
+      margin: 20px 0;
+    }
+
+    .seat {
+      width: 20px;
+      height: 20px;
+      background-color: black;
+      border: 5px solid red;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 14px;
+      color: red;
+      margin: 2px;
+      border-radius: 5px;
+    }
+
+    .seat.selected {
+      background-color: #ff6347;
+      color: #fff;
+    }
+
+    #book-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #book-btn:hover {
+      background-color: #0056b3;
+    }
+
+    #total-amount {
+      font-weight: bold;
+    }
+
+    .section1 {
+      background-color: silver;
+      
+    }
+
+    .section2 {
+      background-color: gold;
+    }
+    .part1{
+      width: 90px;
+      height: 20px;
+      background-color: silver;
+      border: 5px solid red;
+      margin: 5px;
+    }
+    .part2{
+      width: 90px;
+      height: 20px;
+      background-color: gold;
+      border: 5px solid red;
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="part1">silver-100RS</div>
+    <div class="part2">Gold-200RS</div>
+    <div class="seats"></div>
+    <button id="book-btn">Book Selected Seats</button>
+    <p>Total Amount: <span id="total-amount">0</span> Rs</p>
+  </div>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+  const seatsContainer = document.querySelector('.seats');
+  const bookButton = document.getElementById('book-btn');
+  const totalAmountDisplay = document.getElementById('total-amount');
+  const seats = 60; // Total number of seats
+  const priceForSeats1to42 = 100; // Price for seats 1 to 42
+  const priceForOtherSeats = 200; // Price for seats other than 1 to 42
+  let selectedSeats = [];
+
+  // Create seats
+  for (let i = 1; i <= seats; i++) {
+    const seat = document.createElement('div');
+    seat.classList.add('seat');
+    seat.innerText = i;
+    
+    // Add classes to seats based on section
+    if (i <= 42) {
+      seat.classList.add('section1');
+    } else {
+      seat.classList.add('section2');
+    }
+    
+    seat.addEventListener('click', () => {
+      toggleSeatSelection(seat);
+    });
+    seatsContainer.appendChild(seat);
+  }
+
+  // Function to toggle seat selection
+  function toggleSeatSelection(seat) {
+    if (seat.classList.contains('selected')) {
+      seat.classList.remove('selected');
+      const index = selectedSeats.indexOf(seat.innerText);
+      selectedSeats.splice(index, 1);
+    } else {
+      seat.classList.add('selected');
+      selectedSeats.push(seat.innerText);
+    }
+    
+    // Update total amount
+    updateTotalAmount();
+  }
+
+  // Function to update total amount
+  function updateTotalAmount() {
+    let totalAmount = 0;
+    selectedSeats.forEach(seat => {
+      if (parseInt(seat) <= 42) {
+        totalAmount += priceForSeats1to42;
+      } else {
+        totalAmount += priceForOtherSeats;
+      }
+    });
+    totalAmountDisplay.innerText = totalAmount;
+  }
+
+  // Event listener for booking button
+  bookButton.addEventListener('click', () => {
+    if (selectedSeats.length > 0) {
+      alert(`You have booked seats: ${selectedSeats.join(', ')}\nTotal Amount: ${totalAmountDisplay.innerText} Rs`);
+      // You can add code here to send booking details to the server
+    } else {
+      alert('Please select at least one seat to book.');
+    }
+  });
+});
+
+  </script>
+</body>
+</html>
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}

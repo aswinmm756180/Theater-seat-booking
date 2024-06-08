@@ -1,0 +1,208 @@
+{% extends 'user/user_home.html' %}
+{% load static %}
+{% block content %}
+
+<body>
+  <form method="post" action="{% url 'book_seat' %}">
+    {% csrf_token %}
+    <input type="hidden" name="selected_seats" id="selected_seats_input">
+    <input type="hidden" name="theater_id" value="{{ theater.id }}">
+    <input type="hidden" name="movie_id" value="{{ movie.id }}">
+    <input type="hidden" name="time_slot" value="{{ time_slot }}">
+    <input type="hidden" name="total_amount" id="total_amount_input">
+    <h2 class="text-center mt-5 text-success">Seat Booking for <span class="text-danger">{{ movie.name }}</span> in
+      <span class="text-danger">{{ theater.theater_name }},{{theater.location}}</span>
+    </h2>
+    <h2 class="text-center mt-5 text-danger">Time Slot: {{ time_slot }}</h2>
+    <h3 class="text-center mt-5 text-success">Available Seats:</h3>
+    <style>
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .seats {
+        display: grid;
+        margin: auto;
+        grid-template-columns: repeat(10, 50px);
+        gap: 5px;
+        margin: 20px 0;
+      }
+
+      .seat {
+        width: 40px;
+        height: 40px;
+        background-color: black;
+        border: 2px solid green;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+        color: red;
+        margin: 2px;
+        border-radius: 5px;
+      }
+
+      .seat.selected {
+        background-color: red;
+        color: #fff;
+      }
+
+      .seat.booked {
+        background-color: gray;
+        /* Change color for booked seats */
+        cursor: not-allowed;
+        /* Disable cursor for booked seats */
+      }
+
+      #book-btn {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      #book-btn:hover {
+        background-color: #0056b3;
+      }
+
+      #total-amount {
+        font-weight: bold;
+      }
+
+      .section1 {
+        background-color: silver;
+
+      }
+
+      .section2 {
+        background-color: gold;
+      }
+
+      .part1 {
+        width: 150px;
+        height: 40px;
+        background-color: silver;
+        border: 5px solid red;
+        margin: 5px;
+        font-weight: bold;
+        color: red;
+        font-size: 20px;
+      }
+
+      .part2 {
+        margin-top: 50px;
+        width: 150px;
+        height: 40px;
+        background-color: gold;
+        border: 5px solid red;
+        margin: 5px;
+        font-weight: bold;
+        color: red;
+        font-size: 20px;
+      }
+    </style>
+
+    <div class="container">
+      <div class="part1">1-60-100RS</div>
+      <div class="part2">61-100-200RS</div>
+      <div class="seats"></div>
+      <button id="book-btn" type="submit">Book Selected Seats</button>
+      <p>Total Amount: <span id="total-amount">0</span> Rs</p>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const seatsContainer = document.querySelector('.seats');
+        const bookButton = document.getElementById('book-btn');
+        const totalAmountDisplay = document.getElementById('total-amount');
+        const totalAmountInput = document.getElementById('total_amount_input');
+        const seats = 100; // Total number of seats
+        const priceForSeats1to60 = 100; // Price for seats 1 to 60
+        const priceForOtherSeats = 200; // Price for seats other than 1 to 60
+        let selectedSeats = [];
+        let bookedSeats = []; // Add the list of booked seats here
+
+        function getBookedSeats() {
+          let bookedSeatsElement = document.getElementById('booked-seats');
+          if (bookedSeatsElement) {
+            let bookedSeatsText = bookedSeatsElement.textContent.trim();
+            bookedSeats = bookedSeatsText.split(','); // Assuming seat numbers are comma-separated
+          }
+        }
+        // Create seats
+        for (let i = 1; i <= seats; i++) {
+          const seat = document.createElement('div');
+          seat.classList.add('seat');
+          seat.innerText = i;
+
+          // Add classes to seats based on section
+          if (i <= 60) {
+            seat.classList.add('section1');
+          } else {
+            seat.classList.add('section2');
+          }
+
+          // Check if the seat is booked and disable its selection
+          if (bookedSeats.includes(i)) {
+            seat.classList.add('booked');
+            seat.removeEventListener('click', toggleSeatSelection);
+          } else {
+            seat.addEventListener('click', () => {
+              toggleSeatSelection(seat);
+            });
+          }
+
+          seatsContainer.appendChild(seat);
+        }
+
+        // Function to toggle seat selection
+        function toggleSeatSelection(seat) {
+          if (seat.classList.contains('selected')) {
+            seat.classList.remove('selected');
+            const index = selectedSeats.indexOf(seat.innerText);
+            selectedSeats.splice(index, 1);
+          } else {
+            seat.classList.add('selected');
+            selectedSeats.push(seat.innerText);
+          }
+
+          // Update total amount
+          updateTotalAmount();
+        }
+
+        // Function to update total amount
+        function updateTotalAmount() {
+          let totalAmount = 0;
+          selectedSeats.forEach(seat => {
+            if (parseInt(seat) <= 60) {
+              totalAmount += priceForSeats1to60;
+            } else {
+              totalAmount += priceForOtherSeats;
+            }
+          });
+          totalAmountDisplay.innerText = totalAmount;
+          totalAmountInput.value = totalAmount; // Update hidden input field
+        }
+
+        // Event listener for booking button (This one should remain)
+        bookButton.addEventListener('click', () => {
+          if (selectedSeats.length > 0) {
+            console.log("Selected Seats:", selectedSeats); // Log selected seats to console
+            document.getElementById('selected_seats_input').value = selectedSeats.join(',');
+            // Submit the form
+            bookButton.closest('form').submit();
+          } else {
+            alert('Please select at least one seat to book.');
+          }
+        });
+      });
+    </script>
+  </form>
+</body>
+{% endblock %}

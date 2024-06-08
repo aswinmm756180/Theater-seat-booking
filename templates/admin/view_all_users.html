@@ -1,0 +1,45 @@
+{% extends 'admin/admin_panel.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .user-list {
+        list-style-type: none; /* Remove default bullets */
+        margin: 0; /* Remove default margin */
+        padding: 15px; /* Add padding for content spacing */
+        border: 1px solid #0b07f5; /* Add a subtle border */
+        border-radius: 50px; /* Add subtle rounded corners */
+        
+    }
+
+    .user-list li {
+        margin-bottom: 10px;
+        font-size: 18px;
+        color: #0b07f5; /* Set text color */
+        background-color: #c2ddf7; /* Add a light background */
+        padding: 10px; /* Add padding for better readability */
+        border-radius: 50px;
+        font-size: 30px;
+        text-align: center; /* Center align text */
+    }
+
+    .user-list li:last-child {
+        border-bottom: none; /* Style the last list item for continuity */
+    }
+
+    .user-list li:hover {
+        background-color: #eee; /* Add hover effect for interactivity */
+        cursor: pointer;
+        border-bottom: 3px solid #726ab9; /* Add a subtle bottom border */
+    }
+</style>  
+
+<br><br><br><br><br><br>
+
+<h2 style="text-align: center;color: #007bff; font-size: 28px;">All Users</h2>
+
+<ul class="user-list">
+  {% for user in users %}
+    <li>{{ user.username }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}

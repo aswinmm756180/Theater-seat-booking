@@ -1,0 +1,126 @@
+{% extends 'user/user_home.html' %}
+{% load static %}
+{% block content %}
+<style>
+    body {
+        background-color: #1c1c1c;
+        color: #e0e0e0;
+    }
+    .card {
+        background-color: #474747;
+        color: #e0e0e0;
+        width: 80%;
+        margin: auto;
+    }
+    .card-img-top {
+        border-color: #444;
+    }
+    .text-success {
+        color: #5cb85c !important;
+    }
+    .text-danger {
+        color: #d9534f !important;
+    }
+    .border-dark {
+        border-color: #444 !important;
+    }
+    .rounded-4 {
+        border-radius: 1.5rem !important;
+    }
+    .shadow-lg {
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.3) !important;
+    }
+    .link-fx-1 {
+        position: relative;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+    .link-fx-1:hover {
+        color: #5cb85c;
+    }
+    .link-fx-1 .icon {
+        margin-left: 0.5rem;
+        transition: transform 0.3s;
+    }
+    .link-fx-1:hover .icon {
+        transform: translateX(0.5rem);
+    }
+</style>
+
+<div class="container mt-5">
+    <h2 class="text-center mt-5 text-success">Theaters for <span class="text-danger">{{ movie.name }}</span> Movie</h2>
+    {% if theaters %}
+        <div class="row">
+            {% for theater in theaters %}
+            <div class="col-12 mb-5 mt-5 text-center">
+                <div class="card mb-3 border border-dark rounded-4 shadow-lg">
+                    {% if theater.image %}
+                    <img src="{{ theater.image.url }}" class="card-img-top border border-dark p-1 rounded-4 shadow-lg" alt="Theater Image" style="height: 400px; object-fit: cover;">
+                    {% else %}
+                    <p class="text-warning">No image available</p>
+                    {% endif %}
+                    <div class="card-body">
+                        <h2 class="card-title text-center">{{ theater.theater_name }}</h2>
+                        <h5 class="card-text m-2">Theater Location: {{ theater.location }}</h5>
+                        <h5 class="card-text m-2">For Booking {{ theater.movie.name }} movie</h5>
+                        <h5 class="card-text m-2">Time Slots available:</h5>
+                        <ul class="list-unstyled m-2">
+                            <li>
+                                <a class="link-fx-1 color-contrast-higher mt-4 text-success m-4 border border-dark rounded-1 shadow-lg" href="{% url 'theater_seat_booking' movie_id=movie.id theater_id=theater.id time_slot='time_slot_1' %}">
+                                    <span>{{ theater.time_slot_1 }}</span>
+                                    <svg class="icon" viewBox="0 0 32 32" aria-hidden="true">
+                                        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="16" cy="16" r="15.5"></circle>
+                                            <line x1="10" y1="18" x2="16" y2="12"></line>
+                                            <line x1="16" y1="12" x2="22" y2="18"></line>
+                                        </g>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="link-fx-1 color-contrast-higher mt-4 text-success m-4 border border-dark rounded-1 shadow-lg" href="{% url 'theater_seat_booking' movie_id=movie.id theater_id=theater.id time_slot='time_slot_2' %}">
+                                    <span>{{ theater.time_slot_2 }}</span>
+                                    <svg class="icon" viewBox="0 0 32 32" aria-hidden="true">
+                                        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="16" cy="16" r="15.5"></circle>
+                                            <line x1="10" y1="18" x2="16" y2="12"></line>
+                                            <line x1="16" y1="12" x2="22" y2="18"></line>
+                                        </g>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="link-fx-1 color-contrast-higher mt-4 text-success m-4 border border-dark rounded-1 shadow-lg" href="{% url 'theater_seat_booking' movie_id=movie.id theater_id=theater.id time_slot='time_slot_3' %}">
+                                    <span>{{ theater.time_slot_3 }}</span>
+                                    <svg class="icon" viewBox="0 0 32 32" aria-hidden="true">
+                                        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="16" cy="16" r="15.5"></circle>
+                                            <line x1="10" y1="18" x2="16" y2="12"></line>
+                                            <line x1="16" y1="12" x2="22" y2="18"></line>
+                                        </g>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="link-fx-1 color-contrast-higher mt-4 text-success m-4 border border-dark rounded-1 shadow-lg" href="{% url 'theater_seat_booking' movie_id=movie.id theater_id=theater.id time_slot='time_slot_4' %}">
+                                    <span>{{ theater.time_slot_4 }}</span>
+                                    <svg class="icon" viewBox="0 0 32 32" aria-hidden="true">
+                                        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="16" cy="16" r="15.5"></circle>
+                                            <line x1="10" y1="18" x2="16" y2="12"></line>
+                                            <line x1="16" y1="12" x2="22" y2="18"></line>
+                                        </g>
+                                    </svg>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <h2 class="text-center text-warning mt-5">No theaters found for this movie.</h2>
+    {% endif %}
+</div>
+{% endblock %}

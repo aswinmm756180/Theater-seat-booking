@@ -1,0 +1,10 @@
+{% extends 'user/user_home.html' %}
+{% load static %}
+{% block content %}
+<form method="post" action="{% url 'book_seats' %}">
+    {% csrf_token %}
+    <input type="hidden" name="selected_seats" id="selected_seats">
+    <button id="book-btn" type="submit">Book Selected Seats</button>
+</form>
+
+{% endblock %}

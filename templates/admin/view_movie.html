@@ -1,0 +1,160 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #1f1f1f;
+      height: 100vh;
+      position: fixed;
+      padding-top: 20px;
+    }
+
+    .sidebar .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .sidebar .logo i {
+      font-size: 30px;
+      margin-right: 10px;
+    }
+
+    .sidebar .logo .title {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .sidebar .menu {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar .menu .item {
+      margin: 10px 0;
+    }
+
+    .sidebar .menu .item a {
+      color: #ffffff;
+      text-decoration: none;
+      padding: 10px 20px;
+      display: block;
+      font-size: 18px;
+      transition: background 0.3s;
+    }
+
+    .sidebar .menu .item a:hover {
+      background-color: #333333;
+    }
+
+    .content {
+      margin-left: 250px;
+      padding: 20px;
+    }
+
+    .card {
+      background-color: #1f1f1f;
+      border: none;
+      border-radius: 10px;
+      margin: 15px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      width: 400px;
+    }
+
+    .card img {
+      border-radius: 10px;
+      width: 100%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #f1c40f;
+    }
+
+    .card-text {
+      font-size: 14px;
+      margin-bottom: 20px;
+      color: #e74c3c;
+    }
+
+    .btn-danger {
+      background-color: #ff4444;
+      color: #ffffff;
+      font-size: 16px;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    .btn-danger:hover {
+      background-color: #cc0000;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <i class="fas fa-user-shield"></i>
+      <span class="title">Admin</span>
+    </div>
+    <ul class="menu">
+      <li class="item"><a href="{% url 'admin_panel' %}"><i class="fas fa-home"></i> Home</a></li>
+      <li class="item"><a href="{% url 'view_all_users' %}"><i class="fas fa-list"></i> View Users</a></li>
+      <li class="item"><a href="{% url 'view_all_managers' %}"><i class="fas fa-list"></i> View Managers</a></li>
+      <li class="item"><a href="{% url 'view_all_theaters' %}"><i class="fas fa-list"></i> View Theaters</a></li>
+      <li class="item"><a href="{% url 'add_movie' %}"><i class="fas fa-list"></i> Add Movie</a></li>
+      <li class="item"><a href="{% url 'view_movie' %}"><i class="fas fa-list"></i> View Movie</a></li>
+      <li class="item"><a href="{% url 'view_all_bookings' %}"><i class="fas fa-calendar-alt"></i> Bookings</a></li>
+      <li class="item"><a href="{% url 'index' %}"><i class="fas fa-home"></i> Logout</a></li>
+    </ul>
+  </div>
+
+  <div class="content">
+    <h1 style="font-size: 36px; color: #ffffff;">All Movies</h1>
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <!-- Main Content for Food Items -->
+        <div class="col-md-12">
+          <div class="row">
+            {% for film in films %}
+            <div class="col-md-3">
+              <div class="card">
+                <img src="{{ film.imageURL }}" alt="no image">
+                <h2 class="card-title">Movie Name: {{ film.name }}</h2>
+                <p class="card-text"><strong style="color: #cc0000;">Description:</strong> {{ film.Description }}</p>
+                <a href="{% url 'delete_movie' film.id %}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

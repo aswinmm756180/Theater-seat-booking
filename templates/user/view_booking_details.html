@@ -1,0 +1,120 @@
+{% load static %}
+
+{% block content %}
+
+<head>
+    <style>
+        /* Style for the body */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        /* Style for the container */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Style for the heading */
+        h2 {
+            margin-top: 0;
+            font-size: 24px;
+            color: #333;
+        }
+
+        /* Style for the ticket info */
+        .ticket-info {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        /* Style for the form */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Style for the submit button */
+        .btn-submit {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-submit:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="{% url 'submit_booking' %}" method="post">
+        {% csrf_token %}
+        <div class="container">
+            <h2>Booking Update Request Form</h2>
+            <div class="form-group">
+                <label for="movie">Movie:</label>
+                <input type="text" id="movie" name="movie" readonly value="{{ booking.movie.name }}">
+            </div>
+            <div class="form-group">
+                <label for="theater">Theater:</label>
+                <input type="text" id="theater" name="theater" readonly value="{{ booking.theater.theater_name }}">
+            </div>
+            <div class="form-group">
+                <label for="time-slot">Time Slot:</label>
+                <input type="text" id="time-slot" name="time-slot" readonly value="{{ booking.time_slot }}">
+            </div>
+            <div class="form-group">
+                <label for="booking-id">Booking ID:</label>
+                <input type="text" id="booking-id" name="booking-id" readonly value="{{ booking.id }}">
+            </div>
+            <div class="form-group">
+                <label for="seats-booked">Seats Booked:</label>
+                <input type="text" id="seats-booked" name="seats-booked" readonly
+                    value="{{ booking.booked_seat_numbers }}">
+            </div>
+            <div class="form-group">
+                <label for="change-seat">Change Seat:</label>
+                <select id="change-seat" name="change-seat" style="width: 150px; height: 40px; text-align: center; color: black; font-weight: bold; font-size: 20px;">
+                    <option value="Silver">Silver</option>
+                    <option value="Gold">Gold</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="total-amount">Total Amount:</label>
+                <input type="text" id="total-amount" name="total-amount" readonly value="{{ booking.total_amount }}">
+            </div>
+            <div class="form-group">
+                <label for="booking-time">Booked Date & Time:</label>
+                <input type="text" id="booking-time" name="booking-time" readonly value="{{ booking.booking_time }}">
+            </div>
+            <button class="btn-submit" type="submit">Submit</button>
+        </div>
+    </form>
+</body>
+{% endblock %}

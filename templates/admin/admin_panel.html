@@ -1,0 +1,61 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+  <link rel="stylesheet" href="{% static '/css/styles.min.css'%}" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+
+  </style>
+</head>
+
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <i class="fas fa-user-shield"></i>
+      <span class="title">Admin</span>
+      <div style="position: relative; display: inline-block;">
+        
+      </div>
+    </div>
+    <ul class="menu" >
+      <li  class="item"><a href="{% url 'admin_panel' %}"><i class="fas fa-home"></i>Home</a></li>
+      <li  class="item"><a href="{% url 'view_all_users' %}"><i class="fas fa-list"></i>View Users</a></li>
+      <li  class="item"><a href="{% url 'view_all_managers' %}"><i class="fas fa-list"></i>View Managers</a></li>
+      <li  class="item"><a href="{% url 'view_all_theaters' %}"><i class="fas fa-list"></i>View Theaters</a></li>
+      <li  class="item"><a href="{% url 'add_movie' %}"><i class="fas fa-list"></i>Add Movie</a></li>
+      <li  class="item"><a href="{% url 'view_movie' %}"><i class="fas fa-list"></i>View Movie</a></li>
+      <li  class="item"><a href="{% url 'view_all_bookings' %}"><i class="fas fa-calendar-alt"></i>Bookings</a></li>
+      <li  class="item"><a href="{% url 'index' %}"><i class="fas fa-home"></i>Logout</a></li>
+    </ul>
+  </div>
+  <div class="content">
+    {% block content %}
+    <h1>Welcome admin 👋😅😅😅</h1>
+
+    <div class="container">
+      <div class="info">
+        <h2>Statistics</h2>
+        <p>23 visitors today, 3 more than yesterday including 1 new visitor.</p>
+        <i class="fas fa-chart-line"></i>
+      </div>
+
+      <div class="info">
+        <h2>Visitors</h2>
+        <p>25 visitors online right now.</p>
+        <i class="fas fa-user"></i>
+      </div>
+    </div>
+    {% endblock %}
+  </div>
+</body>
+
+</html>

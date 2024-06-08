@@ -1,0 +1,47 @@
+{% extends 'manager/manager_home.html' %}
+{% load static %}
+{% block content %}
+<br><br>
+<h1 style="color: #333; font-family: 'Arial', sans-serif; font-size: 28px;">Theaters</h1>
+<div class="container mt-5" style="margin-left: 160px;">
+    <div class="row">
+        <!-- Main Content for Food Items -->
+        <div class="col-md-8 order-md-2">
+            <div class="col-lg-4 offset-lg-4 text-center" style="text-align: center;">
+                <div class="section-heading" style="margin-top: 40px;">
+                    <h1>THEATERS</h1>
+                </div>
+            </div>
+            <div class="row">
+                {% for theater in theaters %}
+                <div class="col-md-4">
+                    <div class="card mb-3 border border-dark  rounded-4 border-0 shadow-lg ">
+                        {% if theater.image %}
+                        <img src="{{ theater.image.url }}" class="card-img-top border border-dark p-1 rounded-4 border-0 shadow-lg
+                            " alt="Theater Image" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                        <p>No image available</p>
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ theater.theater_name }}</h5>
+                            <p class="card-text">{{ theater.location }}</p>
+                            <p class="card-text">{{ theater.movie.name }}</p>
+                            <p class="card-text">Time Slots:</p>
+                            <ul class="list-unstyled">
+                                <li>{{ theater.time_slot_1 }}</li>
+                                <li>{{ theater.time_slot_2 }}</li>
+                                <li>{{ theater.time_slot_3 }}</li>
+                                <li>{{ theater.time_slot_4 }}</li>   
+                            </ul>
+                            <a href="{% url 'delete_theater' theater.id %}" class="btn btn-danger"><i
+                                    class="fa fa-trash"></i> Delete</a>
+                            <a href="{% url 'edit_theater' theater.id %}" class="btn btn-primary"><i class="fas fa-edit"></i> Edit</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

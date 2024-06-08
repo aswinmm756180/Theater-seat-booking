@@ -1,0 +1,113 @@
+{% extends 'admin/admin_panel.html' %}
+{% load static %}
+{% block content %}
+<style>
+    body {
+        background-color: #1e1e1e;
+        color: #ffffff;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .theater-heading {
+        color: #ffffff;
+        font-family: 'Arial', sans-serif;
+        font-size: 28px;
+    }
+
+    .theater-card {
+        border: 1px solid #444;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        transition: box-shadow 0.3s ease;
+        box-shadow: 0 0 10px rgba(3, 88, 247, 0.3);
+        width: 300px;
+        padding: 20px;
+        background-color: #2c2c2c;
+        color: #ffffff;
+    }
+
+    .theater-card:hover {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .theater-image {
+        height: 300px;
+        object-fit: fill;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .no-image {
+        text-align: center;
+        font-style: italic;
+        color: #ffffff;
+    }
+
+    .theater-name {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .location, .movie {
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+
+    .time-slots {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .delete-button, .edit-button {
+        margin-top: 10px;
+    }
+
+    .section-heading {
+        margin-bottom: 30px;
+    }
+
+    .section-heading h2 {
+        color: #4caf50;
+        font-size: 58px;
+    }
+</style>
+
+<h1 class="theater-heading"></h1>
+<div class="container mt-1">
+    <div class="row">
+        <!-- Main Content for Theaters -->
+        <div class="col-md-15 order-md-2">
+            <div class="col-lg-4 offset-lg-4 text-center">
+                <div class="section-heading">
+                    <h2>THEATERS</h2>
+                </div>
+            </div>
+            <div class="row">
+                {% for theater in theaters %}
+                <div class="col-md-4">
+                    <div class="card theater-card">
+                        {% if theater.image %}
+                        <img src="{{ theater.image.url }}" class="card-img-top theater-image" alt="Theater Image" >
+                        {% else %}
+                        <p class="no-image">No image available</p>
+                        {% endif %}
+                        <div class="card-body" style="color: red;">
+                            <h5 class="card-title theater-name" style="color: red;"><span style="font-weight: bold; color: rgb(253, 247, 247);">Theater Name:</span> {{ theater.theater_name }}</h5>
+                            <p class="card-text location" style="color: red;"><span style="font-weight: bold;color: rgb(248, 245, 245);">Location:</span> {{ theater.location }}</p>
+                            <p class="card-text movie" style="color: red;"><span style="font-weight: bold;color: rgb(250, 248, 248);">Movie:</span> {{ theater.movie.name }}</p>
+                            <p class="card-text fs-3" style="color: rgb(250, 249, 249);">Time Slots:</p>
+                            <ul class="list-unstyled time-slots" style="color: red;">
+                                <li style="color: red;">{{ theater.time_slot_1 }}</li>
+                                <li style="color: red;">{{ theater.time_slot_2 }}</li>
+                                <li style="color: red;">{{ theater.time_slot_3 }}</li>
+                                <li style="color: red;">{{ theater.time_slot_4 }}</li>   
+                            </ul>
+                            
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

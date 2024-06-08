@@ -1,0 +1,111 @@
+{% extends 'admin/admin_panel.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/booking.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
+        h1 {
+            color: #f5f5f5;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .booking-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #1e1e1e;
+        }
+
+        .booking-table th, .booking-table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #333;
+            color: #ff4d4d; /* Red color for content */
+        }
+
+        .booking-table th {
+            background-color: #333;
+            color: #fff;
+            border-top: 2px solid #444;
+            border-bottom: 2px solid #444;
+        }
+
+        .booking-table tbody tr:nth-child(even) {
+            background-color: #2a2a2a;
+        }
+
+        .booking-table tbody tr:hover {
+            background-color: #333;
+        }
+
+        .booking-table button {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .booking-table button:hover {
+            background-color: #ff6666;
+        }
+
+        /* Borders around the table */
+        .booking-table {
+            border: 2px solid #444;
+        }
+
+        .booking-table th, .booking-table td {
+            border-right: 1px solid #444;
+        }
+
+        .booking-table th:first-child, .booking-table td:first-child {
+            border-left: 1px solid #444;
+        }
+
+        .booking-table th:last-child, .booking-table td:last-child {
+            border-right: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>All Bookings</h1>
+    <table class="booking-table">
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>User</th>
+                <th>Theater</th>
+                <th>Movie</th>
+                <th>Time Slot</th>
+                <th>Seats Booked</th>
+                <th>Total Amount</th>
+                <th>Booking Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.id }}</td>
+                <td>{{ booking.user.username }}</td>
+                <td>{{ booking.theater }}</td>
+                <td>{{ booking.movie.name }}</td>
+                <td>{{ booking.time_slot }}</td>
+                <td>{{ booking.booked_seat_numbers }}</td>
+                <td>{{ booking.total_amount }}</td>
+                <td>{{ booking.booking_time }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+{% endblock %}

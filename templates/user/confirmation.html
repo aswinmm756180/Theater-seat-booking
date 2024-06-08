@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin-top: 0;
+            font-size: 24px;
+            color: #333;
+        }
+        .confirmation-info {
+            margin-bottom: 20px;
+        }
+        .confirmation-info label {
+            font-weight: bold;
+        }
+        .confirmation-info p {
+            margin: 0;
+        }
+        .btn-home {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-home:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Booking Confirmation</h2>
+        <div class="confirmation-info">
+            <label for="movie">Movie:</label>
+            <p>{{ booking.movie.name }}</p>
+        </div>
+        <div class="confirmation-info">
+            <label for="theater">Theater:</label>
+            <p>{{ booking.theater.theater_name }}</p>
+        </div>
+        <div class="confirmation-info">
+            <label for="time-slot">Time Slot:</label>
+            <p>{{ booking.time_slot }}</p>
+        </div>
+        <div class="confirmation-info">
+            <label for="booking-id">Booking ID:</label>
+            <p>{{ booking.id }}</p>
+        </div>
+        <div class="confirmation-info">
+            <label for="seats-booked">Seats Booked:</label>
+            <p>{{ booking.booked_seat_numbers }}</p>
+        </div>
+        <div class="confirmation-info">
+            <label for="change-seat">Change Seat:</label>
+            <p>{{ booking.change_seat }}</p>
+        </div>
+        <div class="confirmation-info">
+            <label for="total-amount">Total Amount:</label>
+            <p>{{ booking.total_amount }}</p>
+        </div>
+        <div class="confirmation-info">
+            <label for="booking-time">Booked Date & Time:</label>
+            <p>{{ booking.booking_time }}</p>
+        </div>
+        <a href="{% url 'home' %}" class="btn-home">Back to Home</a>
+    </div>
+</body>
+</html>
